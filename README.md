@@ -1,4 +1,4 @@
-![Anime Mix Banner](https://cdn.discordapp.com/attachments/347533644975570945/949137078799716372/banner.png?ex=673ea049&is=673d4ec9&hm=5971611d27c509a53708a3a9256de69ed8e357e0fed20866c7bbe0404de349bf&)
+![Anime Mix Banner](static/banner.png)
 
 # CMB
 This project is a Svelte-based web app to provide an interactive platform for community engagement.
@@ -12,7 +12,7 @@ CMB is a Brazilian community of osu! mappers, bringing together passionate playe
 # Installation
 Clone the repository:
 ```
-git clone https://github.com/yourusername/cmb.git
+git clone https://github.com/CondeSaheki/cmb.git
 
 cd cmb
 ```
