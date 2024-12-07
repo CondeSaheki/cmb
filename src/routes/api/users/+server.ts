@@ -1,7 +1,6 @@
 import { CMB_SECRET } from "$env/static/private";
 import { error, json, type RequestHandler } from "@sveltejs/kit";
-import { getAllUsers, getAllTokens, getForms } from "$lib/database";
-import type { User } from "$lib/osuInterfaces";
+import { getAllUsers, getAllTokens, getForms } from "$lib/supabase";
 
 export const GET: RequestHandler = async ({ request }) => {
 
@@ -10,9 +9,9 @@ export const GET: RequestHandler = async ({ request }) => {
         throw error(401, 'Unauthorized');
     }
 
-    const users = getAllUsers();
-    const tokens = getAllTokens();
-    const forms = getForms();
+    const users = await getAllUsers();
+    const tokens = await getAllTokens();
+    const forms = await getForms();
 
     return json({ users: users, tokens: tokens, forms: forms });
 };

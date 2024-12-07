@@ -1,5 +1,5 @@
 import { error, json, type RequestHandler } from "@sveltejs/kit";
-import { getToken, removeTokens, removeToken } from "$lib/database";
+import { getToken, removeTokens, removeToken } from "$lib/supabase";
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
     // Get all from the request
@@ -23,16 +23,16 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
     }
 
     // Get token information from database
-    const token = getToken(tokenRaw.token);
+    const token = await getToken(tokenRaw.token);
     if (!token || token.expiresAt < Date.now() || token.userId !== tokenRaw.id) return error(401, 'Token is not valid');
 
     // Remove tokens
     if (all) {
-        const removed = removeTokens(token.userId);
+        const removed = await removeTokens(token.userId);
         if (!removed) return error(500, "Failed to remove tokens.");
     }
     else {
-        const removed = removeToken(tokenRaw.token);
+        const removed = await removeToken(tokenRaw.token);
         if (!removed) return error(500, "Failed to remove token.");
     }
 
