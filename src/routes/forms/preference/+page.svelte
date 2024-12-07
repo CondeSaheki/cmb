@@ -69,7 +69,10 @@
         if (response.ok) {
             window.location.href = "/";
         }
-        alert("submit error");
+        else
+        {
+            alert("submit error");
+        }
     }
 
     // gamers stuff
