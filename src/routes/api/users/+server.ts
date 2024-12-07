@@ -1,6 +1,6 @@
 import { CMB_SECRET } from "$env/static/private";
 import { error, json, type RequestHandler } from "@sveltejs/kit";
-import { getAllUsers, getAllTokens } from "$lib/database";
+import { getAllUsers, getAllTokens, getForms } from "$lib/database";
 import type { User } from "$lib/osuInterfaces";
 
 export const GET: RequestHandler = async ({ request }) => {
@@ -12,6 +12,7 @@ export const GET: RequestHandler = async ({ request }) => {
 
     const users = getAllUsers();
     const tokens = getAllTokens();
+    const forms = getForms();
 
-    return json({ users: users, tokens: tokens });
+    return json({ users: users, tokens: tokens, forms: forms });
 };

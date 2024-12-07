@@ -26,6 +26,18 @@ export function initialize() {
             FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
         );
     `);
+
+    // Create forms table
+    database.exec(`
+        CREATE TABLE IF NOT EXISTS forms (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,         
+            userId INTEGER NOT NULL,
+            date INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            formData TEXT NOT NULL,
+            FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
+        );
+    `);
 }
 
 // Setters
@@ -208,4 +220,36 @@ export function generateToken(): string | null {
 
     console.error("generateToken: Failed to generate a unique token.");
     return null;
+}
+
+export function setForm(id: number, form: { name: string, formData: string }): boolean {
+    const statement = database.prepare(`
+        INSERT INTO forms (userId, name, date, formData)
+        VALUES (?, ?, ?, ?)
+    `);
+
+    try {
+        statement.run(id, form.name, Date.now(), form.formData);
+        return true;
+    } catch (ex) {
+        console.error(`setForm, userId \"${id}\", form \"${form}\": \"${ex}\"`);
+        return false;
+    }
+}
+
+export function getForms(): { userId: number, name: string, date: number, formData: string }[] | null {
+    const statement = database.prepare(`
+        SELECT userId, name, date, formData 
+        FROM forms
+    `);
+
+    let forms: { userId: number, name: string, date: number, formData: string }[];
+    try {
+        forms = statement.all() as { userId: number, name: string, date: number, formData: string }[];
+        if (!forms) return null;
+    } catch (ex) {
+        console.error(`getForms: \"${ex}\"`);
+        return null;
+    }
+    return forms;
 }

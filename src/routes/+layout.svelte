@@ -108,7 +108,7 @@
                 </div>
 
                 <a href="/" class="btn btn-ghost text-xl rounded-xl">
-                    <img src={"favicon.png"} alt="logo" class="h-8 w-8" />
+                    <img src={"/favicon.png"} alt="logo" class="h-8 w-8" />
                     Central De Mapping Brasileiro
                 </a>
             </div>
