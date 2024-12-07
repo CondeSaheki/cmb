@@ -54,6 +54,8 @@
     }
 
     async function submit() {
+        return; // disabled for now
+
         let response = await fetch("/api/form", {
             method: "POST",
             headers: {
@@ -67,6 +69,7 @@
         if (response.ok) {
             window.location.href = "/";
         }
+        alert("submit error");
     }
 
     // gamers stuff
