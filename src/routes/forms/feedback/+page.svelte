@@ -39,46 +39,37 @@
             organizationCommunication: 0,
         },
         question11: "",
+        question12: false,
+        question13: "",
+        question14: "",
+        question15: "",
     });
 
     let disableNext: boolean = $derived(step + 1 > stepsCount);
     let disablePrevious: boolean = $derived(step - 1 < 0);
 
-    let totalQuestions = 11 + 6;
+    let totalQuestions = 7;
     let answeredQuestions = $derived(
-        (answers.question1 !== "" ? 1 : 0) +
-            (answers.question2 !== "" ? 1 : 0) +
-            (answers.question3 !== "" ? 1 : 0) +
-            (answers.question4 !== "" ? 1 : 0) +
-            (answers.question5 !== "" ? 1 : 0) +
-            (answers.question6 !== "" ? 1 : 0) +
-            (answers.question7 !== "" ? 1 : 0) +
-            (answers.question8 !== "" ? 1 : 0) +
-            (answers.question9 !== "" ? 1 : 0) +
-            (answers.question10.animesMusic !== 0 ? 1 : 0) +
+        (answers.question10.animesMusic !== 0 ? 1 : 0) +
             (answers.question10.divisionParticipants !== 0 ? 1 : 0) +
             (answers.question10.teamMeeting !== 0 ? 1 : 0) +
             (answers.question10.divisionParts !== 0 ? 1 : 0) +
             (answers.question10.orientation !== 0 ? 1 : 0) +
             (answers.question10.deadline !== 0 ? 1 : 0) +
-            (answers.question10.organizationCommunication !== 0 ? 1 : 0) +
-            (answers.question11 !== "" ? 1 : 0),
+            (answers.question10.organizationCommunication !== 0 ? 1 : 0),
     );
     let progress = $derived(
         Math.round((answeredQuestions / totalQuestions) * 100),
     );
 
     let canSubmit: boolean = $derived(
-        answers.question1 !== "" &&
-            answers.question2 !== "" &&
-            answers.question3 !== "" &&
-            answers.question4 !== "" &&
-            answers.question5 !== "" &&
-            answers.question6 !== "" &&
-            answers.question7 !== "" &&
-            answers.question8 !== "" &&
-            answers.question9 !== "" &&
-            answers.question11 !== "",
+        answers.question10.animesMusic !== 0 &&
+            answers.question10.divisionParticipants !== 0 &&
+            answers.question10.teamMeeting !== 0 &&
+            answers.question10.divisionParts !== 0 &&
+            answers.question10.orientation !== 0 &&
+            answers.question10.deadline !== 0 &&
+            answers.question10.organizationCommunication !== 0,
     );
 
     interface questions {
@@ -101,6 +92,10 @@
             organizationCommunication: number;
         };
         question11: string;
+        question12: boolean;
+        question13: string;
+        question14: string;
+        question15: string;
     }
 
     async function submit() {
@@ -116,9 +111,7 @@
         });
         if (response.ok) {
             window.location.href = "/";
-        }
-        else
-        {
+        } else {
             alert("submit error");
         }
     }
@@ -133,6 +126,10 @@
     Mapa Separado ou Junto
     9 perguntas
 
+    12 - Viu a live ?
+    
+    14 - O que você achou da live? Tem alguma sugestão de melhoria?
+
     1 -* O que você achou da organização do projeto? Tem alguma sugestão de melhoria?*
     2 -* O que você achou das mudanças desta edição em relação as anteriores? Tem alguma sugestão de melhoria?*
     3 -* O que você achou do Forum no Discord? Tem alguma sugestão de melhoria?*
@@ -143,6 +140,8 @@
     8 - O que você achou dessa edição os mods da organização ocorreram ao longo do projeto ao invés de só ocorrer no final. Tem alguma sugestão de melhoria?
     9 - O que você achou dos mapas estavam em arquivos separados ao invés de estarem com o áudio junto. Tem alguma sugestão de melhoria?
 
+    13 - O que você achou dos Background, Audio, Video, Storyboard e Lyrics. Tem alguma sugestão de melhoria?
+    
     10) Qual seu grau de satisfação em relação a:
 
     a) Animes/Musicas escolhidos para a maratona.
@@ -152,6 +151,8 @@
     e) Orientação recebidas pelo mapper experiente e da organização (Net0).
     f) Prazo e tempo para fazer o mapa e hitsounds.
     g) Comunicação da organização para informar sobre os prazos e como fazer o projeto.    
+
+    15 - O que você achou do site da CMB. Tem alguma sugestão de melhoria?
 */
 </script>
 
@@ -160,11 +161,51 @@
         <header class="flex flex-row h-10 text-3xl font-bold gap-2 p-2">
             <div>Anime {animeMix} Mix</div>
         </header>
+        <div class="divider"></div>
+
+        <div class="text-3xl font-bold">
+            Essas informações não serão publicas, sinta se a
+            vontade para escrever o que desejar
+        </div>
 
         <div class="divider"></div>
 
         <div class="grow flex flex-col gap-4 items-center text-lg w-[64rem]">
             {#if step == 0}
+                <!-- question 12 -->
+                <div
+                    class="card bg-base-200 rounded-box h-full w-full place-items-center p-2"
+                >
+                    <div class="text-justify mx-4">Você viu a live?</div>
+                </div>
+                <div>
+                    <div class="form-control">
+                        <label class="label cursor-pointer">
+                            <div class="label-text p-2">Sim</div>
+                            <input
+                                type="radio"
+                                name="experientMapper"
+                                class="radio checked:bg-blue-500"
+                                bind:group={answers.question12}
+                                value={true}
+                            />
+                        </label>
+                        <div class="form-control">
+                            <label class="label cursor-pointer">
+                                <div class="label-text p-2">Não</div>
+                                <input
+                                    type="radio"
+                                    name="experientMapper"
+                                    class="radio checked:bg-blue-500"
+                                    bind:group={answers.question12}
+                                    checked={true}
+                                    value={false}
+                                />
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- question 1 -->
                 <div
                     class="card bg-base-200 rounded-box h-full w-full place-items-center p-2"
@@ -178,7 +219,7 @@
                 <div class="flex gap-2 w-full">
                     <input
                         type="text"
-                        placeholder="Clique aqui para responder"
+                        placeholder="Clique aqui para responder (Opicional)"
                         class="input input-bordered w-full"
                         bind:value={answers.question1}
                     />
@@ -199,7 +240,7 @@
                 <div class="flex gap-2 w-full">
                     <input
                         type="text"
-                        placeholder="Clique aqui para responder"
+                        placeholder="Clique aqui para responder (Opicional)"
                         class="input input-bordered w-full"
                         bind:value={answers.question2}
                     />
@@ -220,7 +261,7 @@
                 <div class="flex gap-2 w-full">
                     <input
                         type="text"
-                        placeholder="Clique aqui para responder"
+                        placeholder="Clique aqui para responder (Opicional)"
                         class="input input-bordered w-full"
                         bind:value={answers.question3}
                     />
@@ -241,7 +282,7 @@
                 <div class="flex gap-2 w-full">
                     <input
                         type="text"
-                        placeholder="Clique aqui para responder"
+                        placeholder="Clique aqui para responder (Opicional)"
                         class="input input-bordered w-full"
                         bind:value={answers.question4}
                     />
@@ -262,7 +303,7 @@
                 <div class="flex gap-2 w-full">
                     <input
                         type="text"
-                        placeholder="Clique aqui para responder"
+                        placeholder="Clique aqui para responder (Opicional)"
                         class="input input-bordered w-full"
                         bind:value={answers.question5}
                     />
@@ -283,7 +324,7 @@
                 <div class="flex gap-2 w-full">
                     <input
                         type="text"
-                        placeholder="Clique aqui para responder"
+                        placeholder="Clique aqui para responder (Opicional)"
                         class="input input-bordered w-full"
                         bind:value={answers.question6}
                     />
@@ -305,7 +346,7 @@
                 <div class="flex gap-2 w-full">
                     <input
                         type="text"
-                        placeholder="Clique aqui para responder"
+                        placeholder="Clique aqui para responder (Opicional)"
                         class="input input-bordered w-full"
                         bind:value={answers.question7}
                     />
@@ -327,7 +368,7 @@
                 <div class="flex gap-2 w-full">
                     <input
                         type="text"
-                        placeholder="Clique aqui para responder"
+                        placeholder="Clique aqui para responder (Opicional)"
                         class="input input-bordered w-full"
                         bind:value={answers.question8}
                     />
@@ -349,7 +390,7 @@
                 <div class="flex gap-2 w-full">
                     <input
                         type="text"
-                        placeholder="Clique aqui para responder"
+                        placeholder="Clique aqui para responder (Opicional)"
                         class="input input-bordered w-full"
                         bind:value={answers.question9}
                     />
@@ -534,8 +575,13 @@
                             Reunião e comunicação do seu time para organizar o
                             mapa.
                         </div>
-                        <div class="rating rating-lg rating-half"
-                        onchange={(e) => answers.question10.teamMeeting = parseFloat((e?.target as HTMLInputElement)?.value ?? 0)}>
+                        <div
+                            class="rating rating-lg rating-half"
+                            onchange={(e) =>
+                                (answers.question10.teamMeeting = parseFloat(
+                                    (e?.target as HTMLInputElement)?.value ?? 0,
+                                ))}
+                        >
                             <input
                                 type="radio"
                                 name="teamMeeting"
@@ -607,8 +653,13 @@
                     </div>
                     <div>
                         <div>Divisão das Partes em que cada um fez o mapa.</div>
-                        <div class="rating rating-lg rating-half"
-                        onchange={(e) => answers.question10.divisionParts = parseFloat((e?.target as HTMLInputElement)?.value ?? 0)}>
+                        <div
+                            class="rating rating-lg rating-half"
+                            onchange={(e) =>
+                                (answers.question10.divisionParts = parseFloat(
+                                    (e?.target as HTMLInputElement)?.value ?? 0,
+                                ))}
+                        >
                             <input
                                 type="radio"
                                 name="divisionParts"
@@ -683,10 +734,13 @@
                             Orientação recebidas pelo mapper experiente e da
                             organização.
                         </div>
-                        <div class="rating rating-lg rating-half"
-                            onchange={(e) => answers.question10.orientation = parseFloat((e?.target as HTMLInputElement)?.value ?? 0)}
-                            >
-                            
+                        <div
+                            class="rating rating-lg rating-half"
+                            onchange={(e) =>
+                                (answers.question10.orientation = parseFloat(
+                                    (e?.target as HTMLInputElement)?.value ?? 0,
+                                ))}
+                        >
                             <input
                                 type="radio"
                                 name="orientation"
@@ -758,9 +812,13 @@
                     </div>
                     <div>
                         <div>Prazo e tempo para fazer o mapa e hitsounds.</div>
-                        <div class="rating rating-lg rating-half"
-                            onchange={(e) => answers.question10.deadline = parseFloat((e?.target as HTMLInputElement)?.value ?? 0)}
-                            >
+                        <div
+                            class="rating rating-lg rating-half"
+                            onchange={(e) =>
+                                (answers.question10.deadline = parseFloat(
+                                    (e?.target as HTMLInputElement)?.value ?? 0,
+                                ))}
+                        >
                             <input
                                 type="radio"
                                 name="deadline"
@@ -835,10 +893,15 @@
                             Comunicação da organização para informar sobre os
                             prazos e como fazer o projeto.
                         </div>
-                        <div class="rating rating-lg rating-half"
-                            onchange={(e) => answers.question10.organizationCommunication = parseFloat((e?.target as HTMLInputElement)?.value ?? 0)}
+                        <div
+                            class="rating rating-lg rating-half"
+                            onchange={(e) =>
+                                (answers.question10.organizationCommunication =
+                                    parseFloat(
+                                        (e?.target as HTMLInputElement)
+                                            ?.value ?? 0,
+                                    ))}
                         >
-                            
                             <input
                                 type="radio"
                                 name="organizationCommunication"
@@ -916,6 +979,23 @@
                     class="card bg-base-200 rounded-box h-full w-full place-items-center p-2"
                 >
                     <div class="text-justify mx-4">
+                        O que você achou do site da CMB. Tem alguma sugestão de
+                        melhoria?
+                    </div>
+                </div>
+
+                <div class="flex gap-2 w-full">
+                    <input
+                        type="text"
+                        placeholder="Clique aqui para responder (Opicional)"
+                        class="input input-bordered w-full"
+                        bind:value={answers.question11}
+                    />
+                </div>
+                <div
+                    class="card bg-base-200 rounded-box h-full w-full place-items-center p-2"
+                >
+                    <div class="text-justify mx-4">
                         Escreva sobre o que quiser
                     </div>
                 </div>
@@ -923,7 +1003,7 @@
                 <div class="flex gap-2 w-full">
                     <input
                         type="text"
-                        placeholder="Clique aqui para responder"
+                        placeholder="Clique aqui para responder (Opicional)"
                         class="input input-bordered w-full"
                         bind:value={answers.question11}
                     />
